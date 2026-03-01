@@ -5,31 +5,33 @@ services:
       dockerfile: Dockerfile.node
     container_name: streambot
     restart: always
+    env_file: .env
     environment:
       # Selfbot options
-      TOKEN: "MTQ3NzQ3NjM3ODIzOTY5Njk5MQ.Go7P57.jLYRZxa0yK7K9hk0mX4H6EbPMfksBCcHDxE9Do" # Your Discord self-bot token
-      PREFIX: "$" # The prefix used to trigger your self-bot commands
-      GUILD_ID: "892133019094241330" # The ID of the Discord server your self-bot will be running on
-      COMMAND_CHANNEL_ID: "902281999115485204" # The ID of the Discord channel where your self-bot will respond to commands
-      VIDEO_CHANNEL_ID: "1472011144133742905" # The ID of the Discord voice/video channel where your self-bot will stream videos
-      ADMIN_IDS: '["bigo0","rouby_"]' # A list of Discord user IDs that are considered administrators (comma-separated or JSON array format)
+      TOKEN: ${TOKEN} # Your Discord self-bot token
+      PREFIX: ${PREFIX} # The prefix used to trigger your self-bot commands
+      GUILD_ID: ${GUILD_ID} # The ID of the Discord server your self-bot will be running on
+      COMMAND_CHANNEL_ID: ${COMMAND_CHANNEL_ID} # The ID of the Discord channel where your self-bot will respond to commands
+      VIDEO_CHANNEL_ID: ${VIDEO_CHANNEL_ID} # The ID of the Discord voice/video channel where your self-bot will stream videos
+      ADMIN_IDS: ${ADMIN_IDS} # A list of Discord user IDs that are considered administrators (comma-separated or JSON array format)
+
       # General options 
-      VIDEOS_DIR: "./videos" # The local path where you store video files
-      PREVIEW_CACHE_DIR: "./tmp/preview-cache" # The local path where your self-bot will cache video preview thumbnails
-      TORRENTS_DIR: "./videos/.torrents" # The local path where torrents are downloaded
+      VIDEOS_DIR: ${VIDEOS_DIR} # The local path where you store video files
+      PREVIEW_CACHE_DIR: ${PREVIEW_CACHE_DIR} # The local path where your self-bot will cache video preview thumbnails
+      TORRENTS_DIR: ${TORRENTS_DIR} # The local path where torrents are downloaded
 
       # yt-dlp options
-      YTDLP_COOKIES_PATH: "" # Path to cookies file for yt-dlp (for accessing age-restricted or premium content)
+      YTDLP_COOKIES_PATH: ${YTDLP_COOKIES_PATH} # Path to cookies file for yt-dlp (for accessing age-restricted or premium content)
 
       # Stream options
-      STREAM_RESPECT_VIDEO_PARAMS: "false" # This option is used to respect video parameters such as width, height, fps, bitrate, and max bitrate.
-      STREAM_WIDTH: "1280" # The width of the video stream in pixels
-      STREAM_HEIGHT: "720" # The height of the video stream in pixels
-      STREAM_FPS: "30" # The frames per second (FPS) of the video stream
-      STREAM_BITRATE_KBPS: "2000" # The bitrate of the video stream in kilobits per second (Kbps)
-      STREAM_MAX_BITRATE_KBPS: "2500" # The maximum bitrate of the video stream in kilobits per second (Kbps)
-      STREAM_HARDWARE_ACCELERATION: "false" # Whether to use hardware acceleration for video decoding, set to "true" to enable, "false" to disable
-      STREAM_VIDEO_CODEC: "H264" # The video codec to use for the stream, can be "H264" or "H265" or "VP8"
+      STREAM_RESPECT_VIDEO_PARAMS: ${STREAM_RESPECT_VIDEO_PARAMS} # This option is used to respect video parameters such as width, height, fps, bitrate, and max bitrate.
+      STREAM_WIDTH: ${STREAM_WIDTH} # The width of the video stream in pixels
+      STREAM_HEIGHT: ${STREAM_HEIGHT} # The height of the video stream in pixels
+      STREAM_FPS: ${STREAM_FPS} # The frames per second (FPS) of the video stream
+      STREAM_BITRATE_KBPS: ${STREAM_BITRATE_KBPS} # The bitrate of the video stream in kilobits per second (Kbps)
+      STREAM_MAX_BITRATE_KBPS: ${STREAM_MAX_BITRATE_KBPS} # The maximum bitrate of the video stream in kilobits per second (Kbps)
+      STREAM_HARDWARE_ACCELERATION: ${STREAM_HARDWARE_ACCELERATION} # Whether to use hardware acceleration for video decoding, set to "true" to enable, "false" to disable
+      STREAM_VIDEO_CODEC: ${STREAM_VIDEO_CODEC} # The video codec to use for the stream, can be "H264" or "H265" or "VP8"
 
       # STREAM_H26X_PRESET: Determines the encoding preset for H26x video streams. 
       # If the STREAM_H26X_PRESET environment variable is set, it parses the value 
@@ -38,13 +40,13 @@ services:
       # H26x; otherwise, it should be disabled or ignored.
       # Available presets: "ultrafast", "superfast", "veryfast", "faster", 
       # "fast", "medium", "slow", "slower", "veryslow".
-      STREAM_H26X_PRESET: "ultrafast"
+      STREAM_H26X_PRESET: ${STREAM_H26X_PRESET}
 
       # Videos server options
-      SERVER_ENABLED: "false" # Whether to enable the built-in video server
-      SERVER_USERNAME: "admin" # The username for the video server's admin interface
-      SERVER_PASSWORD: "admin" # The password for the video server's admin interface
-      SERVER_PORT: "3000" # The port number the video server will listen on
+      SERVER_ENABLED: ${SERVER_ENABLED} # Whether to enable the built-in video server
+      SERVER_USERNAME: ${SERVER_USERNAME} # The username for the video server's admin interface
+      SERVER_PASSWORD: ${SERVER_PASSWORD} # The password for the video server's admin interface
+      SERVER_PORT: ${SERVER_PORT} # The port number the video server will listen on
     network_mode: host
     dns:
       - 8.8.8.8
