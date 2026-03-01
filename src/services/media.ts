@@ -8,16 +8,22 @@ import { GeneralUtils } from '../utils/shared.js';
 import { YTResponse } from '../types/index.js';
 import path from 'path';
 
+import { TorrentService } from './torrent.js';
+
 export class MediaService {
 	private youtube: Youtube;
+	private torrentService: TorrentService;
 
 	constructor() {
 		this.youtube = new Youtube();
+		this.torrentService = new TorrentService();
 	}
 
 	public async resolveMediaSource(url: string): Promise<MediaSource | null> {
 		try {
-			if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
+			if (url.startsWith('magnet:') || url.endsWith('.torrent')) {
+				return await this._resolveTorrentSource(url);
+			} else if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
 				return await this._resolveYouTubeSource(url);
 			} else if (url.includes('twitch.tv/')) {
 				return await this._resolveTwitchSource(url);
@@ -95,7 +101,11 @@ export class MediaService {
 			logger.error("Failed to download YouTube video:", error);
 			return null;
 		}
-	
+
+	}
+
+	private async _resolveTorrentSource(url: string): Promise<MediaSource | null> {
+		return await this.torrentService.resolveTorrentSource(url);
 	}
 
 	private async _resolveTwitchSource(url: string): Promise<MediaSource | null> {

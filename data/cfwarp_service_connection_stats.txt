@@ -1,0 +1,8 @@
+2026-03-01T05:34:31.935Z warp-connection-stats: Time since handshake: 0.13s, tx: 120 B, rx: 0 B, loss: N/A, latency: N/A
+2026-03-01T05:36:31.927Z warp-connection-stats: Time since handshake: 120.13s, tx: 7.61 MiB, rx: 194.04 MiB, loss: N/A, latency: N/A
+2026-03-01T05:38:31.920Z warp-connection-stats: Time since handshake: 240.13s, tx: 46.54 MiB, rx: 229.90 MiB, loss: N/A, latency: N/A
+2026-03-01T05:40:31.913Z warp-connection-stats: Time since handshake: 360.13s, tx: 77.50 MiB, rx: 230.64 MiB, loss: N/A, latency: N/A
+2026-03-01T05:42:31.906Z warp-connection-stats: Time since handshake: 480.13s, tx: 89.24 MiB, rx: 234.25 MiB, loss: N/A, latency: N/A
+2026-03-01T05:44:31.898Z warp-connection-stats: Time since handshake: 600.13s, tx: 111.83 MiB, rx: 258.09 MiB, loss: N/A, latency: N/A
+2026-03-01T05:46:31.890Z warp-connection-stats: Time since handshake: 720.13s, tx: 146.25 MiB, rx: 259.01 MiB, loss: N/A, latency: N/A
+2026-03-01T05:48:31.883Z warp-connection-stats: Time since handshake: 840.13s, tx: 165.01 MiB, rx: 259.69 MiB, loss: N/A, latency: N/A

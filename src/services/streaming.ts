@@ -8,22 +8,25 @@ import { getVideoParams } from "../utils/ffmpeg.js";
 import logger from '../utils/logger.js';
 import { DiscordUtils, ErrorUtils } from '../utils/shared.js';
 import { QueueItem, StreamStatus } from '../types/index.js';
+import { TorrentService } from './torrent.js';
 
 export class StreamingService {
- 	private streamer: Streamer;
- 	private mediaService: MediaService;
- 	private queueService: QueueService;
- 	private controller: AbortController | null = null;
- 	private streamStatus: StreamStatus;
- 	private failedVideos: Set<string> = new Set();
- 	private isSkipping: boolean = false;
+	private streamer: Streamer;
+	private mediaService: MediaService;
+	private queueService: QueueService;
+	private torrentService: TorrentService;
+	private controller: AbortController | null = null;
+	private streamStatus: StreamStatus;
+	private failedVideos: Set<string> = new Set();
+	private isSkipping: boolean = false;
 
- 	constructor(client: Client, streamStatus: StreamStatus) {
- 		this.streamer = new Streamer(client);
- 		this.mediaService = new MediaService();
- 		this.queueService = new QueueService();
- 		this.streamStatus = streamStatus;
- 	}
+	constructor(client: Client, streamStatus: StreamStatus) {
+		this.streamer = new Streamer(client);
+		this.mediaService = new MediaService();
+		this.queueService = new QueueService();
+		this.torrentService = new TorrentService();
+		this.streamStatus = streamStatus;
+	}
 
 	public getStreamer(): Streamer {
 		return this.streamer;
@@ -112,6 +115,12 @@ export class StreamingService {
 			this.streamer.stopStream();
 
 			const currentItem = this.queueService.getCurrent(); // Get item being skipped
+
+			// If it's a torrent, clean it up
+			if (currentItem?.torrentId) {
+				this.torrentService.removeTorrent(currentItem.torrentId);
+			}
+
 			const nextItem = this.queueService.skip(); // Advance the queue
 
 			if (!nextItem) {
@@ -139,17 +148,33 @@ export class StreamingService {
 		// Ensure queue is marked as playing
 		this.queueService.setPlaying(true);
 
+		// If the source wasn't resolved yet, or it's a torrent that needs a fresh server instance, resolve it now.
+		let urlToPlay = queueItem.url;
+		if (!queueItem.resolved || queueItem.url.startsWith('magnet:') || queueItem.url.endsWith('.torrent')) {
+			try {
+				const resolvedMedia = await this.mediaService.resolveMediaSource(queueItem.originalInput || queueItem.url);
+				if (resolvedMedia) {
+					urlToPlay = resolvedMedia.url;
+					if (resolvedMedia.torrentId) {
+						queueItem.torrentId = resolvedMedia.torrentId; // Update tracking ID
+					}
+				}
+			} catch (err) {
+				logger.error(`Failed resolving media source before play:`, err);
+			}
+		}
+
 		// Collect video parameters if respect_video_params is enabled
 		let videoParams = undefined;
 		if (config.respect_video_params) {
-			videoParams = await this.getVideoParameters(queueItem.url);
+			videoParams = await this.getVideoParameters(urlToPlay);
 		}
 
 		// Log playing video
-		logger.info(`Playing from queue: ${queueItem.title} (${queueItem.url})`);
+		logger.info(`Playing from queue: ${queueItem.title} (${urlToPlay})`);
 
 		// Use streaming service to play the video with video parameters
-		await this.playVideo(message, queueItem.url, queueItem.title, videoParams);
+		await this.playVideo(message, urlToPlay, queueItem.title, videoParams);
 	}
 
 	private async getVideoParameters(videoUrl: string): Promise<{ width: number, height: number, fps?: number, bitrate?: string } | undefined> {
@@ -248,6 +273,9 @@ export class StreamingService {
 		// The video finished playing, so remove it from the queue
 		const finishedItem = this.queueService.getCurrent();
 		if (finishedItem) {
+			if (finishedItem.torrentId) {
+				this.torrentService.removeTorrent(finishedItem.torrentId);
+			}
 			this.queueService.removeFromQueue(finishedItem.id);
 		}
 

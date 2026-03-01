@@ -131,10 +131,11 @@ export const GeneralUtils = {
 
 		// Check for common streaming platforms
 		return input.includes('youtube.com/') ||
-			   input.includes('youtu.be/') ||
-			   input.includes('twitch.tv/') ||
-			   input.startsWith('http://') ||
-			   input.startsWith('https://');
+			input.includes('youtu.be/') ||
+			input.includes('twitch.tv/') ||
+			input.startsWith('http://') ||
+			input.startsWith('https://') ||
+			input.startsWith('magnet:');
 	},
 
 	/**

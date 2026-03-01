@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
 # Copy package.json
 COPY package.json ./
 
+# Install build tools needed for native addons (wrtc)
+RUN npm install -g node-pre-gyp node-gyp
+
 # Install dependencies
 RUN npm install
 

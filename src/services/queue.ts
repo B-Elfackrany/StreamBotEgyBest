@@ -29,7 +29,8 @@ export class QueueService {
 			requestedBy,
 			mediaSource.type,
 			mediaSource.isLive,
-			originalInput || mediaSource.url
+			originalInput || mediaSource.url,
+			mediaSource.torrentId
 		);
 	}
 
@@ -40,9 +41,10 @@ export class QueueService {
 		url: string,
 		title: string,
 		requestedBy: string,
-		type: 'youtube' | 'twitch' | 'local' | 'url' = 'url',
+		type: 'youtube' | 'twitch' | 'local' | 'url' | 'torrent' = 'url',
 		isLive: boolean = false,
-		originalInput?: string
+		originalInput?: string,
+		torrentId?: string
 	): Promise<QueueItem> {
 		const queueItem: QueueItem = {
 			id: this.generateId(),
@@ -54,6 +56,7 @@ export class QueueService {
 			addedAt: new Date(),
 			originalInput: originalInput || url,
 			resolved: originalInput === url,
+			torrentId,
 		};
 
 		this.queue.items.push(queueItem);

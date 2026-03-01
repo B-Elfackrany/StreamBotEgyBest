@@ -1,0 +1,5 @@
+2026-03-01T05:34:29.307Z DEBUG Capturing snapshots{id="20260301-053429-xTcE" context="Happy Eyeballs Failure"}: diagnostics::snapshot: Creating snapshot file
+2026-03-01T05:34:29.311Z DEBUG Capturing snapshots{id="20260301-053429-xTcE" context="Happy Eyeballs Failure"}: diagnostics::snapshot: Starting collection
+2026-03-01T05:34:32.357Z DEBUG Capturing snapshots{id="20260301-053429-xTcE" context="Happy Eyeballs Failure"}: diagnostics::snapshot: Writing snapshot reports to file
+2026-03-01T05:34:32.359Z DEBUG Capturing snapshots{id="20260301-053429-xTcE" context="Happy Eyeballs Failure"}: diagnostics::snapshot: Enforcing directory policy
+2026-03-01T05:34:32.363Z DEBUG Capturing snapshots{id="20260301-053429-xTcE" context="Happy Eyeballs Failure"}: diagnostics::snapshot: Done writing snapshot

@@ -1,0 +1,92 @@
++--------------------------------------------------------------------+
+|            Happy Eyeballs Failure >  connectivity_check            |
++--------------------------------------------------------------------+
+162.159.198.2
+Err(
+    NetworkTraceOutsideTunnel,
+)
+
+
++--------------------------------------------------------------+
+|            Happy Eyeballs Failure >  network_info            |
++--------------------------------------------------------------+
+Ok(
+    IPv4: [eth0; 172.18.0.2; Ethernet; Gateway: Some(172.18.0.1)], DNS servers:,  127.0.0.11:53
+    ,
+)
+
+
++------------------------------------------------------------------+
+|            Happy Eyeballs Failure >  skip_ipv6_checks            |
++------------------------------------------------------------------+
+true
+
+
++--------------------------------------------------------------+
+|            Happy Eyeballs Failure >  trace_result            |
++--------------------------------------------------------------+
+162.159.198.2
+Ok(
+    TracerouteWrapper {
+        traceroute: Traceroute {
+            size: 72,
+            src_ip: Some(
+                172.18.0.1,
+            ),
+            dst_ip: Some(
+                162.159.198.2,
+            ),
+            dst_name: "162.159.198.2",
+            timestamp: 13,
+            duration: 13,
+            protocol: ICMP,
+            max_ttl: Some(
+                2,
+            ),
+            hops: [
+                TraceHop {
+                    path_id: 1,
+                    ttl: 1,
+                    sent: 3,
+                    rcvd: 3,
+                    ip: Some(
+                        172.18.0.1,
+                    ),
+                    name: Some(
+                        "172.18.0.1",
+                    ),
+                    rtts: [
+                        0,
+                        0,
+                        0,
+                    ],
+                    errors: [],
+                },
+                TraceHop {
+                    path_id: 1,
+                    ttl: 2,
+                    sent: 3,
+                    rcvd: 3,
+                    ip: Some(
+                        162.159.198.2,
+                    ),
+                    name: Some(
+                        "162.159.198.2",
+                    ),
+                    rtts: [
+                        4,
+                        4,
+                        4,
+                    ],
+                    errors: [],
+                },
+            ],
+            prelude_context: None,
+            version: "2025.10.186.0",
+            time_start: 2026-03-01 5:34:34.353404138 +00:00:00,
+            time_end: 2026-03-01 5:34:34.367410374 +00:00:00,
+            status: DestinationReached,
+        },
+        tunneled: false,
+    },
+)

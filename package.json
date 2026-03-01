@@ -34,12 +34,14 @@
     "multer": "^2.0.2",
     "play-dl": "^1.9.7",
     "twitch-m3u8": "^1.1.5",
-    "winston": "^3.19.0"
+    "winston": "^3.19.0",
+    "webtorrent-hybrid": "^5.0.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/multer": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@types/webtorrent": "^0.109.8"
   }
 }
